@@ -4,7 +4,7 @@ SudokuFoss é um jogo de Sudoku desenvolvido como uma aplicação web leve em HT
 
 ## Como usar
 
-- Abra `SudokuFoss.html` em um navegador moderno.
+- Abra [SudokuFoss](https://igor-vinicius-souza.github.io/SudokuFoss/) ou `SudokuFoss.html` em um navegador moderno.
 - Selecione a dificuldade desejada e comece a jogar.
 - Use o teclado numérico na tela ou o teclado físico para inserir números.
 - Pressione `Espaço` para alternar o modo lápis.
