@@ -132,6 +132,83 @@
     <div id="rain-layer" class="rain-container"></div>
     <div id="clouds-layer" class="clouds-container"></div>
 
+    <!-- Tela Inicial / Menu Principal -->
+    <div id="main-menu" class="fixed inset-0 bg-slate-950/95 text-white z-50 flex items-center justify-center p-4">
+        <div class="w-full max-w-2xl mx-auto rounded-3xl bg-slate-900/95 border border-slate-700 shadow-2xl p-8 text-center">
+            <h1 id="main-menu-title" class="text-4xl sm:text-5xl font-bold tracking-[0.35em] uppercase mb-4" data-i18n="title">SudokuFoss</h1>
+            <p id="main-menu-subtitle" class="text-slate-300 mb-6" data-i18n="subtitle">Um desafio estratégico com tema, loja e dicas. Prepare-se para limpar o tabuleiro!</p>
+            <div class="mb-6">
+                <label for="menu-difficulty" id="main-menu-difficulty-label" class="block text-sm text-slate-400 mb-2" data-i18n="gameDifficultyLabel">Escolha a dificuldade</label>
+                <select id="menu-difficulty" class="w-full sm:w-auto bg-slate-800 text-white font-semibold px-4 py-3 rounded-2xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="easy">Fácil</option>
+                    <option value="medium" selected>Médio</option>
+                    <option value="hard">Difícil</option>
+                </select>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
+                <button id="btn-start-game" class="w-full sm:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-2xl text-white font-bold transition" data-i18n="start">Iniciar Jogo</button>
+                <button id="btn-show-instructions" class="w-full sm:w-auto px-8 py-3 bg-slate-700 hover:bg-slate-600 rounded-2xl text-slate-100" data-i18n="howToPlay">Como Jogar</button>
+                <button id="btn-open-settings" class="w-full sm:w-auto px-8 py-3 bg-slate-700 hover:bg-slate-600 rounded-2xl text-slate-100" data-i18n="settings">Configurações</button>
+            </div>
+            <div class="text-sm text-slate-400 space-y-1">
+                <p id="main-menu-line1" data-i18n="instructionsText1">Use o teclado numérico ou os botões na tela para preencher.</p>
+                <p id="main-menu-line2" data-i18n="instructionsText2">Pressione Espaço para alternar entre modo lápis e modo definitivo.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Instruções -->
+    <div id="modal-instructions" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="w-full max-w-xl rounded-3xl bg-white dark:bg-slate-800 p-6 border border-slate-200 dark:border-slate-700 shadow-2xl text-left">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h2 id="instructions-title" class="text-2xl font-bold text-slate-900 dark:text-white" data-i18n="instructionsTitle">Como Jogar</h2>
+                </div>
+                <button id="btn-close-instructions" class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-3xl font-bold">&times;</button>
+            </div>
+            <div class="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <p id="instructions-line1" data-i18n="instructionsText1">Use o teclado numérico ou os botões na tela para preencher o Sudoku.</p>
+                <p id="instructions-line2" data-i18n="instructionsText2">Pressione Espaço para alternar entre o modo Lápis e o modo Definitivo.</p>
+                <p data-i18n="instructionsExtra">Use as setas para navegar e Backspace para apagar.</p>
+            </div>
+            <div class="mt-6 text-right">
+                <button id="btn-close-instructions-bottom" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-semibold transition" data-i18n="close">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div id="modal-settings" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="w-full max-w-xl rounded-3xl bg-white dark:bg-slate-800 p-6 border border-slate-200 dark:border-slate-700 shadow-2xl text-left">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h2 id="settings-title" class="text-2xl font-bold text-slate-900 dark:text-white" data-i18n="settingsTitle">Configurações</h2>
+                </div>
+                <button id="btn-close-settings" class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-3xl font-bold">&times;</button>
+            </div>
+            <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300">
+                <div>
+                    <label for="settings-language" class="block mb-2 font-semibold" data-i18n="languageLabel">Idioma</label>
+                    <select id="settings-language" class="w-full bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="pt">Português</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="settings-color" class="block mb-2 font-semibold" data-i18n="colorLabel">Paleta de Cores</label>
+                    <select id="settings-color" class="w-full bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <!-- Opções preenchidas dinamicamente com temas desbloqueados -->
+                    </select>
+                </div>
+                <div class="text-xs text-slate-500 dark:text-slate-400" data-i18n="settingsHint">As configurações são salvas localmente e aplicadas imediatamente.</div>
+            </div>
+            <div class="mt-6 flex flex-col sm:flex-row justify-end gap-3">
+                <button id="btn-cancel-settings" class="w-full sm:w-auto px-5 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 rounded-2xl font-semibold transition" data-i18n="cancelSettings">Cancelar</button>
+                <button id="btn-apply-settings" class="w-full sm:w-auto px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-semibold transition" data-i18n="applySettings">Salvar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Barra Superior / Menu de Status -->
     <div class="w-full max-w-lg flex flex-col gap-4 mb-4 z-10">
         <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-md border border-slate-100 dark:border-slate-700 transition-theme">
@@ -285,7 +362,7 @@
             <span>Desenvolvido por <strong>Igor Vinícius Souza</strong></span>
             <div class="flex flex-wrap justify-center gap-3">
                 <a href="https://github.com/Igor-Vinicius-Souza" class="text-indigo-600 dark:text-indigo-400 hover:underline">GitHub</a>
-                <a href="https://www.linkedin.com/in/igor-vin%C3%ADcius-souza-8024801ba/" class="text-indigo-600 dark:text-indigo-400 hover:underline">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/igor-vinícius-souza-8024801ba" class="text-indigo-600 dark:text-indigo-400 hover:underline">LinkedIn</a>
             </div>
         </div>
     </footer>
@@ -313,6 +390,8 @@
         let hintsLeft = parseInt(localStorage.getItem('sudoku_hints')) || 3;
         let unlockedThemes = JSON.parse(localStorage.getItem('sudoku_unlocked_themes')) || ['default'];
         let activeTheme = localStorage.getItem('sudoku_active_theme') || 'default';
+        let language = localStorage.getItem('sudoku_language') || 'pt';
+        let UI_STRINGS = {};
 
         let score = 0;
         let gameTime = 0;
@@ -391,12 +470,51 @@
             return true;
         }
 
+        // Carrega os arquivos de tradução desde a pasta assets/lang
+        async function loadLanguageFiles() {
+            try {
+                const ptResponse = await fetch('./assets/lang/pt.json');
+                const enResponse = await fetch('./assets/lang/en.json');
+                
+                if (!ptResponse.ok || !enResponse.ok) {
+                    throw new Error('Erro ao carregar arquivos de tradução');
+                }
+                
+                UI_STRINGS.pt = await ptResponse.json();
+                UI_STRINGS.en = await enResponse.json();
+            } catch (error) {
+                console.warn('Não foi possível carregar arquivos de tradução:', error);
+                // Usa tradução padrão embutida como fallback
+                UI_STRINGS.pt = {};
+                UI_STRINGS.en = {};
+            }
+        }
+
         // Inicialização do DOM e Jogabilidade
-        document.addEventListener('DOMContentLoaded', () => {
-            initGame();
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Carrega os arquivos de tradução
+            await loadLanguageFiles();
+
             setupThemeAnimations();
             applyTheme(activeTheme);
             updateUIStats();
+            updateLanguageTexts();
+
+            // Inicialização do menu principal
+            document.getElementById('btn-start-game').onclick = startGame;
+            document.getElementById('btn-show-instructions').onclick = openInstructions;
+            document.getElementById('btn-open-settings').onclick = openSettings;
+            document.getElementById('btn-close-instructions').onclick = closeInstructions;
+            document.getElementById('btn-close-instructions-bottom').onclick = closeInstructions;
+            document.getElementById('btn-close-settings').onclick = closeSettings;
+            document.getElementById('btn-cancel-settings').onclick = closeSettings;
+            document.getElementById('btn-apply-settings').onclick = applySettings;
+
+            document.getElementById('menu-difficulty').onchange = (e) => {
+                document.getElementById('select-difficulty').value = e.target.value;
+            };
+            document.getElementById('settings-language').value = language;
+            document.getElementById('settings-color').value = activeTheme;
 
             // Renderiza Teclado Numérico Digital de 1 a 9
             const numpadContainer = document.querySelector('main > div:last-of-type');
@@ -595,6 +713,79 @@
             document.getElementById('score').textContent = score;
             startTimer();
             renderBoard();
+        }
+
+        function startGame() {
+            const menuDifficulty = document.getElementById('menu-difficulty').value;
+            document.getElementById('select-difficulty').value = menuDifficulty;
+            document.getElementById('main-menu').classList.add('hidden');
+            initGame();
+        }
+
+        function openInstructions() {
+            document.getElementById('modal-instructions').classList.remove('hidden');
+        }
+
+        function closeInstructions() {
+            document.getElementById('modal-instructions').classList.add('hidden');
+        }
+
+        function populateColorOptions() {
+            const colorSelect = document.getElementById('settings-color');
+            colorSelect.innerHTML = ''; // Limpa opções existentes
+            
+            // Adiciona apenas temas desbloqueados
+            unlockedThemes.forEach(themeId => {
+                const theme = THEMES_CONFIG[themeId];
+                if (theme) {
+                    const option = document.createElement('option');
+                    option.value = themeId;
+                    option.textContent = theme.name;
+                    colorSelect.appendChild(option);
+                }
+            });
+            
+            // Garante que o tema ativo está selecionado
+            if (colorSelect.querySelector(`option[value="${activeTheme}"]`)) {
+                colorSelect.value = activeTheme;
+            } else if (unlockedThemes.length > 0) {
+                colorSelect.value = unlockedThemes[0];
+                activeTheme = unlockedThemes[0];
+            }
+        }
+
+        function openSettings() {
+            populateColorOptions();
+            document.getElementById('settings-language').value = language;
+            document.getElementById('modal-settings').classList.remove('hidden');
+        }
+
+        function closeSettings() {
+            document.getElementById('modal-settings').classList.add('hidden');
+        }
+
+        function applySettings() {
+            const newLang = document.getElementById('settings-language').value;
+            const newTheme = document.getElementById('settings-color').value;
+
+            language = newLang;
+            localStorage.setItem('sudoku_language', language);
+            activeTheme = newTheme;
+            applyTheme(activeTheme);
+            localStorage.setItem('sudoku_active_theme', activeTheme);
+            updateLanguageTexts();
+            populateColorOptions(); // Atualiza opções em caso de mudanças
+            document.getElementById('modal-settings').classList.add('hidden');
+        }
+
+        function updateLanguageTexts() {
+            const translations = UI_STRINGS[language] || UI_STRINGS.pt;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[key]) el.textContent = translations[key];
+            });
+
+            document.getElementById('menu-difficulty').value = document.getElementById('select-difficulty').value;
         }
 
         function startTimer() {
