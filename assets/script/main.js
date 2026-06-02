@@ -31,6 +31,7 @@ let isGameFinished = false;
 let numpadPressTimeout = null;
 let numpadButtonActive = null;
 let isLongPress = false;
+let pencilRestoreMap = {};
 
 // Algoritmo Real de Sudoku (Backtracking para Geração e Resolução válidas)
 function generateSudoku(difficulty) {
@@ -99,6 +100,17 @@ function isValidPlacement(board, index, val) {
     return true;
 }
 
+// Verifica se todos os números de um dado valor estão corretos
+function isNumberComplete(num) {
+    let count = 0;
+    for (let i = 0; i < 81; i++) {
+        if (solutionGrid[i] === num && sudokuGrid[i] === num) {
+            count++;
+        }
+    }
+    return count === 9; // Devem haver exatamente 9 instâncias corretas
+}
+
 // Carrega os arquivos de tradução desde a pasta assets/lang
 async function loadLanguageFiles() {
     try {
@@ -119,6 +131,23 @@ async function loadLanguageFiles() {
     }
 }
 
+function getTranslation(key, fallback = '') {
+    return (UI_STRINGS[language] && UI_STRINGS[language][key]) || fallback || key;
+}
+
+function getThemeTranslation(themeId) {
+    const themeKey = `colorOptions${themeId.charAt(0).toUpperCase()}${themeId.slice(1)}`;
+    return getTranslation(themeKey, THEMES_CONFIG[themeId]?.name || themeId);
+}
+
+function updateBodyScrollLock() {
+    const isModalOpen = !document.getElementById('main-menu').classList.contains('hidden') ||
+        !document.getElementById('modal-instructions').classList.contains('hidden') ||
+        !document.getElementById('modal-settings').classList.contains('hidden') ||
+        !document.getElementById('modal-shop').classList.contains('hidden');
+    document.body.classList.toggle('no-scroll', isModalOpen);
+}
+
 // Inicialização do DOM e Jogabilidade
 document.addEventListener('DOMContentLoaded', async () => {
     // Carrega os arquivos de tradução
@@ -128,6 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     applyTheme(activeTheme);
     updateUIStats();
     updateLanguageTexts();
+    updateBodyScrollLock();
 
     // Inicialização do menu principal
     document.getElementById('btn-start-game').onclick = startGame;
@@ -152,6 +182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const btn = document.createElement('button');
         btn.className = "numpad-btn py-3 bg-indigo-50 dark:bg-slate-700 hover:bg-indigo-100 dark:hover:bg-slate-600 text-lg md:text-xl font-bold rounded-xl transition transform active:scale-90 text-indigo-700 dark:text-indigo-300";
         btn.textContent = i;
+        btn.dataset.number = i; // Armazena o número para referência posterior
         
         // Eventos de Touch e Mouse para Long Press
         const startPress = (e) => {
@@ -348,15 +379,18 @@ function startGame() {
     const menuDifficulty = document.getElementById('menu-difficulty').value;
     document.getElementById('select-difficulty').value = menuDifficulty;
     document.getElementById('main-menu').classList.add('hidden');
+    updateBodyScrollLock();
     initGame();
 }
 
 function openInstructions() {
     document.getElementById('modal-instructions').classList.remove('hidden');
+    updateBodyScrollLock();
 }
 
 function closeInstructions() {
     document.getElementById('modal-instructions').classList.add('hidden');
+    updateBodyScrollLock();
 }
 
 function populateColorOptions() {
@@ -369,7 +403,7 @@ function populateColorOptions() {
         if (theme) {
             const option = document.createElement('option');
             option.value = themeId;
-            option.textContent = theme.name;
+            option.textContent = getThemeTranslation(themeId);
             colorSelect.appendChild(option);
         }
     });
@@ -387,10 +421,12 @@ function openSettings() {
     populateColorOptions();
     document.getElementById('settings-language').value = language;
     document.getElementById('modal-settings').classList.remove('hidden');
+    updateBodyScrollLock();
 }
 
 function closeSettings() {
     document.getElementById('modal-settings').classList.add('hidden');
+    updateBodyScrollLock();
 }
 
 function applySettings() {
@@ -415,6 +451,11 @@ function updateLanguageTexts() {
     });
 
     document.getElementById('menu-difficulty').value = document.getElementById('select-difficulty').value;
+    populateColorOptions();
+
+    if (!document.getElementById('modal-shop').classList.contains('hidden')) {
+        renderShopThemes();
+    }
 }
 
 function startTimer() {
@@ -429,10 +470,29 @@ function startTimer() {
     }, 1000);
 }
 
+// Atualiza os botões do numpad para mostrar ✓ quando todos os números estão corretos
+function updateNumpadButtons() {
+    for (let i = 1; i <= 9; i++) {
+        const btn = document.querySelector(`[data-number="${i}"]`);
+        if (btn) {
+            if (isNumberComplete(i)) {
+                btn.textContent = '✓';
+                btn.classList.add('bg-emerald-100', 'text-emerald-700', 'dark:bg-emerald-900/40', 'dark:text-emerald-400');
+                btn.classList.remove('bg-indigo-50', 'text-indigo-700', 'dark:bg-slate-700', 'dark:text-indigo-300');
+            } else {
+                btn.textContent = i;
+                btn.classList.remove('bg-emerald-100', 'text-emerald-700', 'dark:bg-emerald-900/40', 'dark:text-emerald-400');
+                btn.classList.add('bg-indigo-50', 'text-indigo-700', 'dark:bg-slate-700', 'dark:text-indigo-300');
+            }
+        }
+    }
+}
+
 // Renderização Visual Dinâmica do Tabuleiro
 function renderBoard() {
     const gridEl = document.getElementById('sudoku-grid');
     gridEl.innerHTML = '';
+    const selectedVal = selectedIdx !== null ? sudokuGrid[selectedIdx] : 0;
 
     for (let i = 0; i < 81; i++) {
         const cell = document.createElement('div');
@@ -481,7 +541,14 @@ function renderBoard() {
                 for (let n = 1; n <= 9; n++) {
                     const pItem = document.createElement('div');
                     pItem.className = "flex items-center justify-center";
-                    pItem.textContent = pencilMarks[i][n] ? n : '';
+                    if (pencilMarks[i][n]) {
+                        pItem.textContent = n;
+                        if (selectedVal !== 0 && n === selectedVal) {
+                            pItem.classList.add('font-bold', 'text-slate-800', 'dark:text-slate-100');
+                        }
+                    } else {
+                        pItem.textContent = '';
+                    }
                     pGrid.appendChild(pItem);
                 }
                 cell.appendChild(pGrid);
@@ -518,6 +585,9 @@ function renderBoard() {
 
         gridEl.appendChild(cell);
     }
+
+    // Atualiza os botões do numpad com checkmarks se necessário
+    updateNumpadButtons();
 }
 
 function selectCell(index) {
@@ -545,7 +615,8 @@ function insertValue(num, forceNormal = false) {
             pencilMarks[selectedIdx].fill(false);
 
             // Remove o número inserido das marcas de lápis das outras células da mesma linha, coluna e bloco
-            clearNeighborPencils(selectedIdx, num);
+            const removedPencils = clearNeighborPencils(selectedIdx, num);
+            pencilRestoreMap[selectedIdx] = { value: num, removed: removedPencils };
 
             // Atualiza pontuação
             if (isCorrect) {
@@ -567,6 +638,7 @@ function clearNeighborPencils(index, value) {
     const col = index % 9;
     const blockRowStart = Math.floor(row / 3) * 3;
     const blockColStart = Math.floor(col / 3) * 3;
+    const removed = [];
 
     for (let i = 0; i < 81; i++) {
         // Não precisa limpar ela mesma (já foi feito)
@@ -580,9 +652,13 @@ function clearNeighborPencils(index, value) {
         const isSameBlock = Math.floor(r / 3) * 3 === blockRowStart && Math.floor(c / 3) * 3 === blockColStart;
 
         if (isSameRow || isSameCol || isSameBlock) {
-            pencilMarks[i][value] = false;
+            if (pencilMarks[i][value]) {
+                removed.push(i);
+                pencilMarks[i][value] = false;
+            }
         }
     }
+    return removed;
 }
 
 function togglePencil() {
@@ -601,8 +677,19 @@ function togglePencil() {
 
 function eraseCurrentCell() {
     if (selectedIdx === null || initialGrid[selectedIdx] || isGameFinished) return;
+
+    const currentValue = sudokuGrid[selectedIdx];
     sudokuGrid[selectedIdx] = 0;
     pencilMarks[selectedIdx].fill(false);
+
+    const restoreData = pencilRestoreMap[selectedIdx];
+    if (restoreData && restoreData.value === currentValue) {
+        restoreData.removed.forEach(cellIndex => {
+            pencilMarks[cellIndex][currentValue] = true;
+        });
+        delete pencilRestoreMap[selectedIdx];
+    }
+
     renderBoard();
 }
 
@@ -685,10 +772,12 @@ function updateUIStats() {
 function openShop() {
     document.getElementById('modal-shop').classList.remove('hidden');
     renderShopThemes();
+    updateBodyScrollLock();
 }
 
 function closeShop() {
     document.getElementById('modal-shop').classList.add('hidden');
+    updateBodyScrollLock();
 }
 
 function buyHint() {
@@ -699,7 +788,7 @@ function buyHint() {
         localStorage.setItem('sudoku_hints', hintsLeft);
         updateUIStats();
     } else {
-        alert("Moedas insuficientes para comprar dica!");
+        alert(getTranslation('shopInsufficientHint', 'Moedas insuficientes para comprar dica!'));
     }
 }
 
@@ -727,11 +816,15 @@ function renderShopThemes() {
         info.className = "text-left";
         const name = document.createElement('h4');
         name.className = "font-bold text-sm dark:text-white";
-        name.textContent = theme.name;
+        name.textContent = getThemeTranslation(theme.id);
         
         const status = document.createElement('p');
         status.className = "text-xs text-slate-400";
-        status.textContent = isActive ? 'Ativo Atualmente' : (isUnlocked ? 'Desbloqueado' : 'Bloqueado');
+        status.textContent = isActive
+            ? getTranslation('shopStatusActive', 'Ativo Atualmente')
+            : isUnlocked
+                ? getTranslation('shopStatusUnlocked', 'Desbloqueado')
+                : getTranslation('shopStatusLocked', 'Bloqueado');
         
         info.appendChild(name);
         info.appendChild(status);
@@ -744,10 +837,10 @@ function renderShopThemes() {
 
         if (isActive) {
             actionBtn.className += " bg-slate-300 text-slate-600 dark:bg-slate-600 dark:text-slate-300 cursor-default";
-            actionBtn.textContent = "Aplicado";
+            actionBtn.textContent = getTranslation('shopApplied', 'Aplicado');
         } else if (isUnlocked) {
             actionBtn.className += " bg-indigo-600 hover:bg-indigo-700 text-white";
-            actionBtn.textContent = "Usar";
+            actionBtn.textContent = getTranslation('shopUse', 'Usar');
             actionBtn.onclick = () => {
                 applyTheme(theme.id);
                 renderShopThemes();
@@ -765,7 +858,7 @@ function renderShopThemes() {
                     applyTheme(theme.id);
                     renderShopThemes();
                 } else {
-                    alert("Moedas insuficientes para este tema!");
+                    alert(getTranslation('shopInsufficientCoins', 'Moedas insuficientes para este tema!'));
                 }
             };
         }

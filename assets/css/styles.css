@@ -85,6 +85,12 @@
     padding: 2px;
 }
 
+/* Estilo de bloqueio de rolagem de fundo */
+.no-scroll {
+    overflow: hidden !important;
+    height: 100%;
+}
+
 /* Estilos Retro 8-bit */
 .theme-8bit-active {
     font-family: 'Press Start 2P', monospace !important;

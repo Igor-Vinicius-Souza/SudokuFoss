@@ -37,7 +37,7 @@
     <div id="clouds-layer" class="clouds-container"></div>
 
     <!-- Tela Inicial / Menu Principal -->
-    <div id="main-menu" class="fixed inset-0 bg-slate-950/95 text-white z-50 flex items-center justify-center p-4">
+    <div id="main-menu" class="fixed inset-0 bg-slate-950/95 backdrop-blur-sm text-white z-50 flex items-center justify-center p-4">
         <div class="w-full max-w-2xl mx-auto rounded-3xl bg-slate-900/95 border border-slate-700 shadow-2xl p-8 text-center">
             <h1 id="main-menu-title" class="text-4xl sm:text-5xl font-bold tracking-[0.35em] uppercase mb-4" data-i18n="title">SudokuFoss</h1>
             <p id="main-menu-subtitle" class="text-slate-300 mb-6" data-i18n="subtitle">Um desafio estratégico com tema, loja e dicas. Prepare-se para limpar o tabuleiro!</p>
@@ -123,16 +123,16 @@
                     <span id="coin-counter" class="font-bold text-yellow-600 dark:text-yellow-400">100</span>
                 </div>
                 <button id="btn-shop" class="px-4 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-sm transition transform hover:scale-105 active:scale-95 text-sm">
-                    🏪 Loja
+                    🏪 <span data-i18n="shopButton">Loja</span>
                 </button>
             </div>
 
             <!-- Dificuldade e Tema Escuro/Claro -->
             <div class="flex items-center gap-2">
                 <select id="select-difficulty" class="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold px-3 py-1.5 rounded-xl text-sm border-0 focus:ring-2 focus:ring-indigo-500 cursor-pointer">
-                    <option value="easy">Fácil</option>
-                    <option value="medium" selected>Médio</option>
-                    <option value="hard">Difícil</option>
+                    <option value="easy" data-i18n="difficultyEasy">Fácil</option>
+                    <option value="medium" selected data-i18n="difficultyMedium">Médio</option>
+                    <option value="hard" data-i18n="difficultyHard">Difícil</option>
                 </select>
                 <button id="btn-toggle-dark" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Alternar tema claro/escuro">
                     🌓
@@ -143,11 +143,11 @@
         <!-- Cronômetro e Pontuação -->
         <div class="flex justify-between items-center bg-white dark:bg-slate-800 px-5 py-3 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 transition-theme">
             <div class="flex items-center gap-2">
-                <span class="text-slate-400">Tempo:</span>
+                <span class="text-slate-400" data-i18n="timerLabel">Tempo:</span>
                 <span id="timer" class="font-mono font-bold text-lg text-indigo-600 dark:text-indigo-400">00:00</span>
             </div>
             <div class="flex items-center gap-2">
-                <span class="text-slate-400">Pontos:</span>
+                <span class="text-slate-400" data-i18n="scoreLabel">Pontos:</span>
                 <span id="score" class="font-bold text-lg text-emerald-600 dark:text-emerald-400">0</span>
             </div>
         </div>
@@ -165,24 +165,24 @@
         <div class="w-full flex justify-between gap-3 mb-6">
             <button id="btn-pencil" class="flex-1 flex flex-col items-center justify-center py-2 px-1 rounded-xl border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition relative">
                 <span class="text-xl">✏️</span>
-                <span class="text-xs font-semibold mt-1">Lápis (Espaço)</span>
+                <span class="text-xs font-semibold mt-1" data-i18n="pencilMode">Lápis (Espaço)</span>
                 <!-- Badge de ativo -->
                 <span id="pencil-badge" class="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-slate-400"></span>
             </button>
 
             <button id="btn-hint" class="flex-1 flex flex-col items-center justify-center py-2 px-1 rounded-xl border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition relative">
                 <span class="text-xl">💡</span>
-                <span class="text-xs font-semibold mt-1">Dica (<span id="hint-qty">3</span>)</span>
+                <span class="text-xs font-semibold mt-1"><span id="hint-label" data-i18n="hintLabel">Dica</span> (<span id="hint-qty">3</span>)</span>
             </button>
 
             <button id="btn-erase" class="flex-1 flex flex-col items-center justify-center py-2 px-1 rounded-xl border border-slate-200 dark:border-slate-600 hover:bg-red-50 dark:hover:bg-red-950/20 text-red-600 dark:text-red-400 transition">
                 <span class="text-xl">🧹</span>
-                <span class="text-xs font-semibold mt-1">Apagar</span>
+                <span class="text-xs font-semibold mt-1" data-i18n="eraseLabel">Apagar</span>
             </button>
             
             <button id="btn-restart" class="flex-1 flex flex-col items-center justify-center py-2 px-1 rounded-xl border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition">
                 <span class="text-xl">🔄</span>
-                <span class="text-xs font-semibold mt-1">Novo Jogo</span>
+                <span class="text-xs font-semibold mt-1" data-i18n="restartLabel">Novo Jogo</span>
             </button>
         </div>
 
@@ -197,8 +197,8 @@
         <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl border border-slate-100 dark:border-slate-700 transition-theme animate-scaleIn">
             <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-slate-800 dark:to-slate-800">
                 <div>
-                    <h2 class="text-xl font-bold dark:text-white">Loja de Itens</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Troque suas moedas por vantagens e estilos</p>
+                    <h2 class="text-xl font-bold dark:text-white" data-i18n="shopTitle">Loja de Itens</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" data-i18n="shopDescription">Troque suas moedas por vantagens e estilos</p>
                 </div>
                 <button id="btn-close-shop" class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-2xl font-bold">&times;</button>
             </div>
@@ -206,13 +206,13 @@
             <div class="p-6 max-h-[400px] overflow-y-auto space-y-4">
                 <!-- Seção de Vantagens -->
                 <div>
-                    <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-2">Recursos</h3>
+                    <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-2" data-i18n="shopResources">Recursos</h3>
                     <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-700">
                         <div class="flex items-center gap-3">
                             <span class="text-2xl">💡</span>
                             <div>
-                                <h4 class="font-bold text-sm dark:text-white">Dica Extra</h4>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Revela uma casa selecionada</p>
+                                <h4 class="font-bold text-sm dark:text-white" data-i18n="shopHintsTitle">Dica Extra</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="shopHintsDesc">Revela uma casa selecionada</p>
                             </div>
                         </div>
                         <button id="buy-hint-btn" class="px-3 py-1.5 bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-bold rounded-lg flex items-center gap-1">
@@ -223,7 +223,7 @@
 
                 <!-- Seção de Estilos / Temas -->
                 <div>
-                    <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-2">Temas Estéticos</h3>
+                    <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-2" data-i18n="shopThemes">Temas Estéticos</h3>
                     <div class="space-y-3" id="shop-themes-list">
                         <!-- Temas injetados por JS -->
                     </div>
@@ -236,25 +236,25 @@
     <div id="modal-victory" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-white dark:bg-slate-800 rounded-3xl w-full max-w-sm p-6 text-center shadow-2xl border border-slate-100 dark:border-slate-700 transition-theme">
             <span class="text-6xl">🎉</span>
-            <h2 class="text-2xl font-bold text-slate-800 dark:text-white mt-4">Sudoku Resolvido!</h2>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Você concluiu com sucesso este desafio.</p>
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white mt-4" data-i18n="victoryTitle">Sudoku Resolvido!</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2" data-i18n="victorySubtitle">Você concluiu com sucesso este desafio.</p>
             
             <div class="my-6 p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/50 space-y-2 text-left">
                 <div class="flex justify-between text-sm">
-                    <span class="text-slate-500 dark:text-slate-400">Tempo Final:</span>
+                    <span class="text-slate-500 dark:text-slate-400" data-i18n="finalTimeLabel">Tempo Final:</span>
                     <span id="final-time" class="font-bold dark:text-white">00:00</span>
                 </div>
                 <div class="flex justify-between text-sm">
-                    <span class="text-slate-500 dark:text-slate-400">Pontuação Base:</span>
+                    <span class="text-slate-500 dark:text-slate-400" data-i18n="finalScoreLabel">Pontuação Base:</span>
                     <span id="final-score" class="font-bold dark:text-white">0</span>
                 </div>
                 <div class="flex justify-between text-sm border-t border-indigo-100 dark:border-indigo-900/50 pt-2 font-bold text-indigo-600 dark:text-indigo-400">
-                    <span>Moedas Ganhas:</span>
+                    <span data-i18n="coinsEarnedLabel">Moedas Ganhas:</span>
                     <span id="final-coins">🪙 +0</span>
                 </div>
             </div>
 
-            <button id="btn-next-game" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold rounded-2xl shadow-md transition transform hover:scale-102">
+            <button id="btn-next-game" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold rounded-2xl shadow-md transition transform hover:scale-102" data-i18n="nextGame">
                 Jogar Novamente
             </button>
         </div>
@@ -263,7 +263,7 @@
     <!-- Rodapé com links de autor -->
     <footer class="w-full max-w-lg mt-6 p-4 rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm text-slate-500 dark:text-slate-400 transition-theme z-10">
         <div class="flex flex-col gap-2 text-center text-xs sm:text-sm">
-            <span>Desenvolvido por <strong>Igor Vinícius Souza</strong></span>
+            <span>Desenvolvido por <strong>Igor Vinícius Souza</strong> - v0.4</span>
             <div class="flex flex-wrap justify-center gap-3">
                 <a href="https://github.com/Igor-Vinicius-Souza" class="text-indigo-600 dark:text-indigo-400 hover:underline">GitHub</a>
                 <a href="https://www.linkedin.com/in/igor-vinícius-souza-8024801ba" class="text-indigo-600 dark:text-indigo-400 hover:underline">LinkedIn</a>
