@@ -26,7 +26,7 @@
             }
         };
     </script>
-    <!-- Importação de Fontes Premium para Temas -->
+    <!-- Importação de Fontes para Temas -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
@@ -39,14 +39,14 @@
     <!-- Tela Inicial / Menu Principal -->
     <div id="main-menu" class="fixed inset-0 bg-slate-950/95 backdrop-blur-sm text-white z-50 flex items-center justify-center p-4">
         <div class="w-full max-w-2xl mx-auto rounded-3xl bg-slate-900/95 border border-slate-700 shadow-2xl p-8 text-center">
-            <h1 id="main-menu-title" class="text-4xl sm:text-5xl font-bold tracking-[0.35em] uppercase mb-4" data-i18n="title">SudokuFoss</h1>
+            <h1 id="main-menu-title" class="text-3xl sm:text-5xl font-bold tracking-tight sm:tracking-[0.35em] uppercase mb-4 break-words whitespace-normal" data-i18n="title">SudokuFoss</h1>
             <p id="main-menu-subtitle" class="text-slate-300 mb-6" data-i18n="subtitle">Um desafio estratégico com tema, loja e dicas. Prepare-se para limpar o tabuleiro!</p>
             <div class="mb-6">
                 <label for="menu-difficulty" id="main-menu-difficulty-label" class="block text-sm text-slate-400 mb-2" data-i18n="gameDifficultyLabel">Escolha a dificuldade</label>
                 <select id="menu-difficulty" class="w-full sm:w-auto bg-slate-800 text-white font-semibold px-4 py-3 rounded-2xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <option value="easy">Fácil</option>
-                    <option value="medium" selected>Médio</option>
-                    <option value="hard">Difícil</option>
+                    <option value="easy" data-i18n="difficultyEasy">Fácil</option>
+                    <option value="medium" selected data-i18n="difficultyMedium">Médio</option>
+                    <option value="hard" data-i18n="difficultyHard">Difícil</option>
                 </select>
             </div>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
@@ -54,26 +54,37 @@
                 <button id="btn-show-instructions" class="w-full sm:w-auto px-8 py-3 bg-slate-700 hover:bg-slate-600 rounded-2xl text-slate-100" data-i18n="howToPlay">Como Jogar</button>
                 <button id="btn-open-settings" class="w-full sm:w-auto px-8 py-3 bg-slate-700 hover:bg-slate-600 rounded-2xl text-slate-100" data-i18n="settings">Configurações</button>
             </div>
-            <div class="text-sm text-slate-400 space-y-1">
-                <p id="main-menu-line1" data-i18n="instructionsText1">Use o teclado numérico ou os botões na tela para preencher.</p>
-                <p id="main-menu-line2" data-i18n="instructionsText2">Pressione Espaço para alternar entre modo lápis e modo definitivo.</p>
-            </div>
         </div>
     </div>
 
     <!-- Modal de Instruções -->
     <div id="modal-instructions" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
-        <div class="w-full max-w-xl rounded-3xl bg-white dark:bg-slate-800 p-6 border border-slate-200 dark:border-slate-700 shadow-2xl text-left">
+        <div class="w-full max-w-3xl rounded-3xl bg-white dark:bg-slate-800 p-6 border border-slate-200 dark:border-slate-700 shadow-2xl text-left">
             <div class="flex items-center justify-between mb-4">
                 <div>
                     <h2 id="instructions-title" class="text-2xl font-bold text-slate-900 dark:text-white" data-i18n="instructionsTitle">Como Jogar</h2>
                 </div>
                 <button id="btn-close-instructions" class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-3xl font-bold">&times;</button>
             </div>
-            <div class="space-y-3 text-sm text-slate-600 dark:text-slate-300">
-                <p id="instructions-line1" data-i18n="instructionsText1">Use o teclado numérico ou os botões na tela para preencher o Sudoku.</p>
-                <p id="instructions-line2" data-i18n="instructionsText2">Pressione Espaço para alternar entre o modo Lápis e o modo Definitivo.</p>
-                <p data-i18n="instructionsExtra">Use as setas para navegar e Backspace para apagar.</p>
+            <div id="instructions-carousel" class="mt-4">
+                <div class="relative">
+                    <div id="carousel-track" class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 no-scrollbar">
+                        <div class="carousel-slide snap-center shrink-0 w-full sm:w-96 lg:w-[28rem] bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 rounded-3xl p-5 flex flex-col items-center text-center text-slate-900 dark:text-white">
+                            <img src="./assets/tutorial/move.svg" alt="Mover" data-i18n-alt="tutorialMove" class="w-full max-w-full h-auto mb-4" />
+                            <span class="text-base font-semibold" data-i18n="tutorialMove">Mover</span>
+                        </div>
+                        <div class="carousel-slide snap-center shrink-0 w-full sm:w-96 lg:w-[28rem] bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 rounded-3xl p-5 flex flex-col items-center text-center text-slate-900 dark:text-white">
+                            <img src="./assets/tutorial/pencil.svg" alt="Lápis" data-i18n-alt="tutorialPencil" class="w-full max-w-full h-auto mb-4" />
+                            <span class="text-base font-semibold" data-i18n="tutorialPencil">Lápis</span>
+                        </div>
+                        <div class="carousel-slide snap-center shrink-0 w-full sm:w-96 lg:w-[28rem] bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 rounded-3xl p-5 flex flex-col items-center text-center text-slate-900 dark:text-white">
+                            <img src="./assets/tutorial/undo.svg" alt="Desfazer" data-i18n-alt="tutorialUndo" class="w-full max-w-full h-auto mb-4" />
+                            <span class="text-base font-semibold" data-i18n="tutorialUndo">Desfazer</span>
+                        </div>
+                    </div>
+                    <button id="carousel-prev" class="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-800 shadow-md hover:bg-white dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 transition" aria-label="Anterior">&#8249;</button>
+                    <button id="carousel-next" class="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-800 shadow-md hover:bg-white dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 transition" aria-label="Próximo">&#8250;</button>
+                </div>
             </div>
             <div class="mt-6 text-right">
                 <button id="btn-close-instructions-bottom" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-semibold transition" data-i18n="close">Fechar</button>
@@ -263,7 +274,7 @@
     <!-- Rodapé com links de autor -->
     <footer class="w-full max-w-lg mt-6 p-4 rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm text-slate-500 dark:text-slate-400 transition-theme z-10">
         <div class="flex flex-col gap-2 text-center text-xs sm:text-sm">
-            <span>Desenvolvido por <strong>Igor Vinícius Souza</strong> - v0.4</span>
+            <span>Desenvolvido por <strong>Igor Vinícius Souza</strong> - v0.5</span>
             <div class="flex flex-wrap justify-center gap-3">
                 <a href="https://github.com/Igor-Vinicius-Souza" class="text-indigo-600 dark:text-indigo-400 hover:underline">GitHub</a>
                 <a href="https://www.linkedin.com/in/igor-vinícius-souza-8024801ba" class="text-indigo-600 dark:text-indigo-400 hover:underline">LinkedIn</a>
