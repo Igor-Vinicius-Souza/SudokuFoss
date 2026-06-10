@@ -47,6 +47,9 @@
   "nextGame": "Play Again",
   "shopInsufficientCoins": "Not enough coins for this theme!",
   "shopInsufficientHint": "Not enough coins to buy a hint!",
+  "tutorialMove": "Move",
+  "tutorialPencil": "Pencil",
+  "tutorialUndo": "Undo",
   "difficultyEasy": "Easy",
   "difficultyMedium": "Medium",
   "difficultyHard": "Hard"

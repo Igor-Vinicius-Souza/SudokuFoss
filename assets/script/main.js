@@ -169,6 +169,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('btn-cancel-settings').onclick = closeSettings;
     document.getElementById('btn-apply-settings').onclick = applySettings;
 
+    setupInstructionCarousel();
+
     document.getElementById('menu-difficulty').onchange = (e) => {
         document.getElementById('select-difficulty').value = e.target.value;
     };
@@ -393,6 +395,27 @@ function closeInstructions() {
     updateBodyScrollLock();
 }
 
+function setupInstructionCarousel() {
+    const track = document.getElementById('carousel-track');
+    const prev = document.getElementById('carousel-prev');
+    const next = document.getElementById('carousel-next');
+    if (!track || !prev || !next) return;
+
+    const getScrollAmount = () => {
+        const slide = track.querySelector('.carousel-slide');
+        const gap = parseInt(getComputedStyle(track).columnGap || 16, 10);
+        return slide ? slide.offsetWidth + gap : 320;
+    };
+
+    prev.addEventListener('click', () => {
+        track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+    });
+
+    next.addEventListener('click', () => {
+        track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+    });
+}
+
 function populateColorOptions() {
     const colorSelect = document.getElementById('settings-color');
     colorSelect.innerHTML = ''; // Limpa opções existentes
@@ -448,6 +471,10 @@ function updateLanguageTexts() {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.dataset.i18n;
         if (translations[key]) el.textContent = translations[key];
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+        const altKey = el.dataset.i18nAlt;
+        if (translations[altKey]) el.alt = translations[altKey];
     });
 
     document.getElementById('menu-difficulty').value = document.getElementById('select-difficulty').value;

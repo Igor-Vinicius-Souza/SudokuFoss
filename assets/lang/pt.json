@@ -47,6 +47,9 @@
   "nextGame": "Jogar Novamente",
   "shopInsufficientCoins": "Moedas insuficientes para este tema!",
   "shopInsufficientHint": "Moedas insuficientes para comprar dica!",
+  "tutorialMove": "Mover",
+  "tutorialPencil": "Lápis",
+  "tutorialUndo": "Desfazer",
   "difficultyEasy": "Fácil",
   "difficultyMedium": "Médio",
   "difficultyHard": "Difícil"
